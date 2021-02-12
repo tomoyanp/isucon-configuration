@@ -1,0 +1,20 @@
+[Unit]
+Description = isucon9 qualifier main application in python
+
+[Service]
+WorkingDirectory=/home/ubuntu/isucon9-qualify/webapp/python
+EnvironmentFile=/home/isucon/env.sh
+
+# ExecStart = /home/isucon/isucari/webapp/python/venv/bin/gunicorn app:app -w 10 --worker-class="meinheld.gmeinheld.MeinheldWorker" -b '0.0.0.0:8000' --log-file /var/log/gunicorn/gunicorn.log --log-level debug --error-logfile /var/log/gunicorn/error.log --keep-alive 120 --max-requests 0 --worker-connections 60
+# ExecStart = /home/isucon/isucari/webapp/python/venv/bin/gunicorn app:app -w 10 --worker-class="meinheld.gmeinheld.MeinheldWorker" -b '0.0.0.0:8000' --keep-alive 120 --max-requests 0 --worker-connections 60
+ExecStart = /home/isucon/isucari/webapp/python/venv/bin/gunicorn app:app -w 10 --worker-class="meinheld.gmeinheld.MeinheldWorker" -b 'unix:/run/gunicorn.socket' --keep-alive 120 --max-requests 0 --worker-connections 60 --log-file /var/log/gunicorn/gunicorn.log --log-level debug --error-logfile /var/log/gunicorn/error.log
+
+
+
+Restart   = always
+Type      = simple
+User      = root
+Group     = root
+
+[Install]
+WantedBy = multi-user.target
